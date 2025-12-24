@@ -40,57 +40,35 @@ const SensorShowcase: React.FC = () => {
       className="relative h-[300vh] bg-[#0c0c0c] z-10"
     >
       {/* 1. STICKY BACKGROUND HARDWARE LAYER */}
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-        
-        {/* Environmental Depth (Grid & Glow) */}
-        <div className="absolute inset-0 opacity-20" style={{ 
-          backgroundImage: `linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px)`,
-          backgroundSize: '100px 100px'
-        }}></div>
+    
 
-        <div className={`absolute inset-0 transition-colors duration-1000 ${
-          isStage1 ? 'bg-[#a3e635]/5' : isStage2 ? 'bg-[#fbbf24]/5' : 'bg-blue-500/5'
-        }`}></div>
+  {/* Premium reflection (Apple-ish) */}
+  <div
+    className="pointer-events-none absolute inset-0 rounded-[2.5rem] opacity-70 mix-blend-screen"
+    style={{
+      background: `linear-gradient(
+        120deg,
+        rgba(255,255,255,0.00) 0%,
+        rgba(255,255,255,0.10) 35%,
+        rgba(255,255,255,0.00) 60%
+      )`,
+      transform: `translateX(${(scrollProgress - 0.5) * 40}px)`,
+      transition: 'transform 120ms linear'
+    }}
+  />
 
-        {/* Central Sensor Visualization */}
-        <div 
-          className="relative z-10 transition-all duration-700 ease-out will-change-transform"
-          style={{
-            transform: `
-              perspective(2000px) 
-              rotateY(${(scrollProgress - 0.5) * 80}deg) 
-              rotateZ(${(scrollProgress - 0.5) * 15}deg)
-              scale(${0.8 + scrollProgress * 0.2})
-              translateX(${(isStage1 ? -15 : isStage3 ? 15 : 0)}%)
-            `
-          }}
-        >
-          <svg width="320" height="580" viewBox="0 0 320 580" fill="none" className="w-auto h-[65vh] drop-shadow-[0_0_100px_rgba(0,0,0,1)]">
-            <defs>
-              <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#16a34a" />
-                <stop offset="50%" stopColor="#4ade80" />
-                <stop offset="100%" stopColor="#14532d" />
-              </linearGradient>
-            </defs>
-            {/* Top Cap */}
-            <path d="M110 60C110 54.4772 114.477 50 120 50H170C175.523 50 180 54.4772 180 60V150H110V60Z" fill="url(#bodyGrad)" />
-            {/* Body */}
-            <rect x="110" y="150" width="70" height="110" fill="#16a34a" />
-            {/* Lora Antenna Branch */}
-            <path d="M180 140L280 80C285 77 292 78 295 83L310 108C313 113 311 120 306 123L206 183L180 140Z" fill="#22c55e" />
-            {/* Probe Blade */}
-            <rect x="115" y="260" width="60" height="280" rx="30" fill="#0a0a0a" />
-            <rect x="135" y="280" width="20" height="220" rx="10" fill="#000" fillOpacity="0.4" />
-            
-            {/* Scanning Laser Line (Active in Stage 2) */}
-            <rect 
-              x="115" y="260" width="60" height="2" fill="#fbbf24" 
-              className={`transition-opacity duration-300 ${isStage2 ? 'opacity-100' : 'opacity-0'}`}
-              style={{ transform: `translateY(${(Math.sin(Date.now() / 200) + 1) * 130}px)` }}
-            />
-          </svg>
-
+  {/* Soft glow halo */}
+  <div
+    className="pointer-events-none absolute -inset-10 blur-3xl opacity-40"
+    style={{
+      background: isStage1
+        ? 'rgba(163,230,53,0.25)'
+        : isStage2
+        ? 'rgba(251,191,36,0.25)'
+        : 'rgba(59,130,246,0.25)',
+    }}
+  />
+</div>
           {/* Orbiting Tech Specs */}
           <div className="absolute top-1/2 -right-32 flex flex-col gap-4">
             <div className="glass-dark border border-white/5 p-4 rounded-2xl flex items-center gap-4 min-w-[180px]">
